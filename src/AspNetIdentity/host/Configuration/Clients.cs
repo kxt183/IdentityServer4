@@ -1,22 +1,26 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+/*
+ Copyright (c) 2024 HigginsSoft, Alexander Higgins - https://github.com/alexhiggins732/ 
 
+ Copyright (c) 2018, Brock Allen & Dominick Baier. All rights reserved.
 
-using IdentityServer4.Models;
-using System.Collections.Generic;
+ Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information. 
+ Source code and license this software can be found 
 
-namespace IdentityServerHost.Configuration
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+*/
+
+namespace IdentityServerHost.Configuration;
+
+public static class Clients
 {
-    public static class Clients
+    public static IEnumerable<Client> Get()
     {
-        public static IEnumerable<Client> Get()
-        {
-            var clients = new List<Client>();
-            
-            clients.AddRange(ClientsConsole.Get());
-            clients.AddRange(ClientsWeb.Get());
+        var clients = new List<Client>();
+        
+        clients.AddRange(ClientsConsole.Get());
+        clients.AddRange(ClientsWeb.Get());
 
-            return clients;
-        }
+        return clients;
     }
 }

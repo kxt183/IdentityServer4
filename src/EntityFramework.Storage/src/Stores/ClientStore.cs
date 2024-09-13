@@ -1,23 +1,23 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+/*
+ Copyright (c) 2024 HigginsSoft, Alexander Higgins - https://github.com/alexhiggins732/ 
 
+ Copyright (c) 2018, Brock Allen & Dominick Baier. All rights reserved.
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4.EntityFramework.Interfaces;
-using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Models;
-using IdentityServer4.Stores;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+ Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information. 
+ Source code and license this software can be found 
 
-namespace IdentityServer4.EntityFramework.Stores
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+*/
+
+using IdentityServer8.Models;
+
+namespace IdentityServer8.EntityFramework.Stores
 {
     /// <summary>
     /// Implementation of IClientStore thats uses EF.
     /// </summary>
-    /// <seealso cref="IdentityServer4.Stores.IClientStore" />
+    /// <seealso cref="IdentityServer8.Stores.IClientStore" />
     public class ClientStore : IClientStore
     {
         /// <summary>
@@ -70,7 +70,7 @@ namespace IdentityServer4.EntityFramework.Stores
 
             var model = client.ToModel();
 
-            Logger.LogDebug("{clientId} found in database: {clientIdFound}", clientId, model != null);
+            Logger.LogDebug("{clientId} found in database: {clientIdFound}", Ioc.Sanitizer.Log.Sanitize(clientId), model != null);
 
             return model;
         }

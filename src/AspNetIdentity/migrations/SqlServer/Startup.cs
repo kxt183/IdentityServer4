@@ -1,37 +1,40 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using IdentityServerHost.Data;
-using Microsoft.AspNetCore.Identity;
-using IdentityServer4.Models;
+/*
+ Copyright (c) 2024 HigginsSoft, Alexander Higgins - https://github.com/alexhiggins732/ 
 
-namespace SqlServer
+ Copyright (c) 2018, Brock Allen & Dominick Baier. All rights reserved.
+
+ Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information. 
+ Source code and license this software can be found 
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+*/
+
+namespace SqlServer;
+
+public class Startup
 {
-    public class Startup
+    public IConfiguration Configuration { get; }
+
+    public Startup(IConfiguration config)
     {
-        public IConfiguration Configuration { get; }
+        Configuration = config;
+    }
 
-        public Startup(IConfiguration config)
+    public void ConfigureServices(IServiceCollection services)
+    {
+        var cn = Configuration.GetConnectionString("db");
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
-            Configuration = config;
-        }
+            options.UseSqlServer(cn, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
+        });
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            var cn = Configuration.GetConnectionString("db");
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(cn, dbOpts => dbOpts.MigrationsAssembly(typeof(Startup).Assembly.FullName));
-            });
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+    }
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
-        }
+    public void Configure(IApplicationBuilder app)
+    {
     }
 }

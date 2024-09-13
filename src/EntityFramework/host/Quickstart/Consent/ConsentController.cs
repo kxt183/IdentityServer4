@@ -1,29 +1,24 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+/*
+ Copyright (c) 2024 HigginsSoft, Alexander Higgins - https://github.com/alexhiggins732/ 
 
+ Copyright (c) 2018, Brock Allen & Dominick Baier. All rights reserved.
 
-using IdentityServer4.Events;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
-using IdentityServer4.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4.Validation;
-using System.Collections.Generic;
-using System;
+ Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information. 
+ Source code and license this software can be found 
 
-namespace IdentityServerHost.Quickstart.UI
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+*/
+
+namespace IdentityServerHost.Quickstart.UI;
+
+/// <summary>
+/// This controller processes the consent UI
+/// </summary>
+[SecurityHeaders]
+[Authorize]
+public class ConsentController : Controller
 {
-    /// <summary>
-    /// This controller processes the consent UI
-    /// </summary>
-    [SecurityHeaders]
-    [Authorize]
-    public class ConsentController : Controller
-    {
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
         private readonly ILogger<ConsentController> _logger;
@@ -73,8 +68,7 @@ namespace IdentityServerHost.Quickstart.UI
                     // return the response is for better UX for the end user.
                     return this.LoadingPage("Redirect", result.RedirectUri);
                 }
-
-                return Redirect(result.RedirectUri);
+            return result.RedirectUri.IsAllowedRedirect() ? Redirect(result.RedirectUri.SanitizeForRedirect()) : Forbid();
             }
 
             if (result.HasValidationError)
@@ -120,7 +114,7 @@ namespace IdentityServerHost.Quickstart.UI
                     var scopes = model.ScopesConsented;
                     if (ConsentOptions.EnableOfflineAccess == false)
                     {
-                        scopes = scopes.Where(x => x != IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess);
+                        scopes = scopes.Where(x => x != IdentityServer8.IdentityServerConstants.StandardScopes.OfflineAccess);
                     }
 
                     grantedConsent = new ConsentResponse
@@ -170,7 +164,7 @@ namespace IdentityServerHost.Quickstart.UI
             }
             else
             {
-                _logger.LogError("No consent request matching request: {0}", returnUrl);
+            _logger.LogError("No consent request matching request: {0}", returnUrl.SanitizeForLog());
             }
 
             return null;
@@ -208,7 +202,7 @@ namespace IdentityServerHost.Quickstart.UI
             }
             if (ConsentOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
             {
-                apiScopes.Add(GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess) || model == null));
+                apiScopes.Add(GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServer8.IdentityServerConstants.StandardScopes.OfflineAccess) || model == null));
             }
             vm.ApiScopes = apiScopes;
 
@@ -251,12 +245,11 @@ namespace IdentityServerHost.Quickstart.UI
         {
             return new ScopeViewModel
             {
-                Value = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
+                Value = IdentityServer8.IdentityServerConstants.StandardScopes.OfflineAccess,
                 DisplayName = ConsentOptions.OfflineAccessDisplayName,
                 Description = ConsentOptions.OfflineAccessDescription,
                 Emphasize = true,
                 Checked = check
             };
-        }
     }
 }

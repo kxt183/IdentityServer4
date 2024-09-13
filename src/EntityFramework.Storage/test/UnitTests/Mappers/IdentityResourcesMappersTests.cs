@@ -1,30 +1,37 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+/*
+ Copyright (c) 2024 HigginsSoft, Alexander Higgins - https://github.com/alexhiggins732/ 
 
+ Copyright (c) 2018, Brock Allen & Dominick Baier. All rights reserved.
 
-using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Models;
+ Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information. 
+ Source code and license this software can be found 
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+*/
+
+using IdentityServer8.EntityFramework.Mappers;
+using IdentityServer8.Models;
 using Xunit;
 
-namespace IdentityServer4.EntityFramework.UnitTests.Mappers
+namespace IdentityServer8.EntityFramework.UnitTests.Mappers;
+
+public class IdentityResourcesMappersTests
 {
-    public class IdentityResourcesMappersTests
+    [Fact]
+    public void IdentityResourceAutomapperConfigurationIsValid()
     {
-        [Fact]
-        public void IdentityResourceAutomapperConfigurationIsValid()
-        {
-            IdentityResourceMappers.Mapper.ConfigurationProvider.AssertConfigurationIsValid<IdentityResourceMapperProfile>();
-        }
+        IdentityResourceMappers.Mapper.ConfigurationProvider.AssertConfigurationIsValid();
+    }
 
-        [Fact]
-        public void CanMapIdentityResources()
-        {
-            var model = new IdentityResource();
-            var mappedEntity = model.ToEntity();
-            var mappedModel = mappedEntity.ToModel();
+    [Fact]
+    public void CanMapIdentityResources()
+    {
+        var model = new IdentityResource();
+        var mappedEntity = model.ToEntity();
+        var mappedModel = mappedEntity.ToModel();
 
-            Assert.NotNull(mappedModel);
-            Assert.NotNull(mappedEntity);
-        }
+        Assert.NotNull(mappedModel);
+        Assert.NotNull(mappedEntity);
     }
 }

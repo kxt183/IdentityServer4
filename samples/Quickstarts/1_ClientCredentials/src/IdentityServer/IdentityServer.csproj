@@ -1,11 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
-  
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" />
-    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="HigginsSoft.IdentityServer8" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
   </ItemGroup>
 </Project>

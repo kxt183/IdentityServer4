@@ -1,18 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup> 
     <OutputType>Exe</OutputType>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Constants\Constants.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <None Update="client.p12">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>

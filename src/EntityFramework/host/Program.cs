@@ -1,22 +1,22 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+/*
+ Copyright (c) 2024 HigginsSoft, Alexander Higgins - https://github.com/alexhiggins732/ 
 
+ Copyright (c) 2018, Brock Allen & Dominick Baier. All rights reserved.
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using System;
-using System.Diagnostics;
+ Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information. 
+ Source code and license this software can be found 
 
-namespace IdentityServerHost
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+*/
+
+namespace IdentityServerHost;
+
+public class Program
 {
-    public class Program
-    {
         public static int Main(string[] args)
         {
-            Console.Title = "IdentityServer4.EntityFramework";
+            Console.Title = "IdentityServer8.EntityFramework";
             Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 
             Log.Logger = new LoggerConfiguration()
@@ -26,7 +26,7 @@ namespace IdentityServerHost
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                //.WriteTo.File(@"identityserver4_log.txt")
+                //.WriteTo.File(@"IdentityServer8_log.txt")
                 // uncomment to write to Azure diagnostics stream
                 //.WriteTo.File(
                 //    @"D:\home\LogFiles\Application\identityserver.txt",
@@ -61,5 +61,4 @@ namespace IdentityServerHost
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-    }
 }
